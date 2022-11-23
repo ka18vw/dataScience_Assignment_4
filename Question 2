@@ -1,0 +1,55 @@
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.datasets import load_diabetes
+import tensorflow as tf
+from tensorflow.keras.layers import Dense, InputLayer
+from sklearn.model_selection import train_test_split
+from tensorflow.keras.models import Sequential
+
+# load dataset
+diabetes = load_diabetes()
+X = diabetes.data
+y = diabetes.target
+
+scaler = MinMaxScaler()
+y = y.reshape(-1,1)
+y = scaler.fit_transform(y)
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.30,
+                                                   random_state = 42)
+#sanity check
+print(X_train.shape)
+print(y_train.shape)
+print(X_test.shape)
+print(y_test.shape)
+
+model = Sequential()
+#with 'relu' activation function: 1 hidden layer with 8 neurons
+model.add(Dense(units=8, input_dim=10, 
+                kernel_initializer='normal', activation='relu'))
+#output layer:
+model.add(Dense(1, kernel_initializer='normal'))
+#compiling the model 
+model.compile(loss = 'mean_absolute_error')
+# Fitting it to the Training set
+model.fit(X_train, y_train , epochs = 10)
+predictions = model.predict(X_test)
+print(predictions)
+
+redefined_model = Sequential()
+#with 'relu' activation function: 1 hidden layer with 8 neurons
+redefined_model.add(Dense(units=8, input_dim=10, 
+                kernel_initializer='normal'))
+#output layer:
+redefined_model.add(Dense(1, kernel_initializer='normal'))
+#compiling the model 
+redefined_model.compile(loss = 'mean_absolute_error')
+# Fitting it to the Training set
+redefined_model.fit(X_train, y_train , epochs = 10)
+predictions = redefined_model.predict(X_test)
+print(predictions)
+
+#After observing the two models with and without 'relu' activation function, i can see that the loss with' relu' 
+#activation is higher than loss without it, which means the deviation is higher with the relu function but actually, not ALOT. 
+#However, its not really the appropriate function for output layer of this model.
+
+
