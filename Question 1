@@ -34,3 +34,29 @@ fig = plt.figure(figsize=(40,20))
 fig = tree.plot_tree(model, feature_names = feature_names,
                     class_names = ['0', '1'], filled = True)
 plt.savefig('tree.pdf')
+
+
+#Class 0 = no kidney disease Class 1 = has kidney disease
+
+#a) For person A, if we observe each of the features; 
+#age = 25 < 60.5 and its classified to Class 0. 
+#rc = 4 < 4.35 class 1 
+#bp = 70 < 75 , class 0 
+#wc = 6600 < 7750, also class 0. 
+#pot = 4.2 > 3.65 class 1 
+#pcv = 38 < 44.5 , class 1
+
+#Even though, the split between class 0 and class 1 is excatly half, i believe person A has kidney disease, because, starting frompcs, 
+#it gives class 1, and then bp <75 gives class 0, so we move to the next node, giving wc < 7750 resulting in class 0, 
+#and next node gives rc < 4.35 which brings us finally to class 1, meaning person A does have kidney disease.
+
+#b) Similarly, 
+#age = 62 > 60.5 , class 0 
+#rc = 5 > 4.35, class 0 
+#bp = 80 > 75 class 1 
+#wc = 7200 < 7750, class 0 
+#bp = 80 > 75, class 0 
+#pot = 2.5 < 3.65, class 1 
+#pcv = 40 < 44.5, class 1 
+#Again, following each node, from pcv -> rc ->age ->bp ->pcv being less than 44.5 which gives class 1 meaning this person too, has kidney disease.
+
